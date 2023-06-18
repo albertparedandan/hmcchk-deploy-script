@@ -67,8 +67,14 @@ download_artifact "$artifact_id"
 # Decompress zip
 decompress_artifact
 
+# Delete folders from hmcchk-web/ folder as mv command cannot merge folders
+rm -rf $DEPLOY_DIR/server $DEPLOY_DIR/ui $DEPLOY_DIR/node_modules
+
 # Move contents from $HOME/deploy to hmcchk-web/ folder
 mv -f $HOME/deploy/* $DEPLOY_DIR
+
+# Move .env folder frome $HOME to server/ folder
+cp $HOME/.env $DEPLOY_DIR/server
 
 # Reload pm2
 pm2 reload 0
